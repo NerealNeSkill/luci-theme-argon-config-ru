@@ -1,6 +1,6 @@
 # Release action based on the one published in luci-theme-argon
 # edited to use snapshot branch
-# Kyo 2024-11 - Fixed for RU localization & GitHub API compliance
+# Kyo 2024-11 - Updated with RU localization support
 
 name: "luci-app-argon-config APK build - Auto compile with OpenWrt SDK"
 on:
@@ -10,9 +10,8 @@ on:
     branches:
       - 'master'
     paths:
-      - 'Makefile'
-      - 'po/**'
-
+      - 'luci-app-argon-config/Makefile'
+      
 jobs:
   job_check:
     if: github.repository == github.repository
@@ -23,7 +22,7 @@ jobs:
       has_update: ${{ steps.check_version.outputs.has_update }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           fetch-depth: 0
           ref: 'master'
@@ -34,18 +33,19 @@ jobs:
           url_release: https://api.github.com/repos/${{ github.repository }}/releases/latest
         run: |
           latest_version=$(grep -oP 'PKG_VERSION:=\K.*' Makefile | sed 's/^/v/')
-          # Всегда ставим true для ручного запуска или пуша, чтобы обновить бинарники
+          latest_release=$(wget -qO- -t1 -T2 ${{env.url_release}} | awk -F '"' '/tag_name/{print $4}')
+          has_update=$([ "${latest_version}" != "${latest_release}" ] && echo true || echo true)
           echo "latest_version=${latest_version}" >> $GITHUB_OUTPUT
-          echo "has_update=true" >> $GITHUB_OUTPUT
+          echo "has_update=${has_update}" >> $GITHUB_OUTPUT
 
-      - name: Generate release tag
+      - name: Generate new tag & release
         if: steps.check_version.outputs.has_update == 'true'
-        uses: softprops/action-gh-release@v2
-        with:
-          name: ${{ steps.check_version.outputs.latest_version }}
-          tag_name: ${{ steps.check_version.outputs.latest_version }}
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: ${{steps.check_version.outputs.latest_version}}
+          tag_name: ${{steps.check_version.outputs.latest_version}}
 
   job_build_argon:
     name: Build Argon Config (master)
@@ -83,6 +83,8 @@ jobs:
           git clone -b master https://github.com/${{ github.repository }}.git package/downloads/luci-app-argon-config
           ./scripts/feeds update -a
           ./scripts/feeds install -d n luci-app-argon-config
+          # Добавляем установку русского языка в фиды
+          ./scripts/feeds install -d n luci-i18n-argon-config-ru
           make download -j8
 
       - name: Configure Argon Config (master)
@@ -90,11 +92,10 @@ jobs:
           cd sdk
           ./scripts/feeds install luci-base
           ./scripts/feeds install luci-app-argon-config
+          # Включаем русскую локализацию в конфиг сборки
           echo "CONFIG_ALL_NONSHARED=n" > .config
-          echo "CONFIG_PACKAGE_luci-app-argon-config=m" >> .config
-          echo "CONFIG_LUCI_LANG_zh_Hans=y" >> .config
           echo "CONFIG_LUCI_LANG_ru=y" >> .config
-          echo "CONFIG_PACKAGE_luci-i18n-argon-config-zh-cn=m" >> .config
+          echo "CONFIG_PACKAGE_luci-app-argon-config=m" >> .config
           echo "CONFIG_PACKAGE_luci-i18n-argon-config-ru=m" >> .config
           make defconfig
 
@@ -104,21 +105,19 @@ jobs:
           cd sdk
           make package/luci-app-argon-config/clean -j$(nproc)
           make package/luci-app-argon-config/compile -j$(nproc)
-          # Вытаскиваем все собранные APK в корень
-          find bin/packages/ -name "luci-app-argon-config*.apk" -exec mv {} ../ \;
-          find bin/packages/ -name "luci-i18n-argon-config*.apk" -exec mv {} ../ \;
+          # Собираем пакеты из папки вывода
+          mv bin/packages/x86_64/base/ ../
           cd ..
           echo "status=success" >> $GITHUB_OUTPUT
+          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
 
-      - name: Upload Argon Config APKs to release
-        uses: softprops/action-gh-release@v2
+      - name: Upload Argon Config (master) APKs to release
+        uses: softprops/action-gh-release@v1
         if: steps.compile.outputs.status == 'success'
-        with:
-          tag_name: ${{needs.job_check.outputs.argon_version}}
-          # ИСПОЛЬЗУЕМ ЗВЕЗДОЧКИ, чтобы подхватить файлы с любыми именами
-          files: |
-            luci-app-argon-config*.apk
-            luci-i18n-argon-config*.apk
-          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{needs.job_check.outputs.argon_version}}
+          files: |
+            ${{ env.FIRMWARE }}/base/luci-app-argon-config*.*
+            ${{ env.FIRMWARE }}/base/luci-i18n-argon-config*.*
