@@ -1,17 +1,18 @@
-#
-# Copyright (C) 2008-2019 Jerrykuku
-#
-# This is free software, licensed under the Apache License, Version 2.0 .
-#
-
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=Argon Theme
-LUCI_DEPENDS:=+wget +jsonfilter
-PKG_VERSION:=2.4.3
-PKG_RELEASE:=20250722
+PKG_NAME:=luci-app-argon-config
+PKG_VERSION:=1.0
+PKG_RELEASE:=20230608
 
-CONFIG_LUCI_CSSTIDY:=
+PKG_MAINTAINER:=jerrykuku <jerrykuku@qq.com>
+
+LUCI_TITLE:=LuCI app for Argon theme configuration
+LUCI_PKGARCH:=all
+LUCI_DEPENDS:=+luci-theme-argon +luci-lib-ipkg +luci-compat
+
+define Package/$(PKG_NAME)/conffiles
+/etc/config/argon
+endef
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
