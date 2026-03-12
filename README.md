@@ -127,3 +127,5 @@ apk add --allow-untrusted /tmp/luci-i18n-argon-config-ru.apk
 * [luci-theme-argon](https://github.com/jerrykuku/luci-theme-argon) — Оригинальная тема Argon.
 
 * [luci-app-argon-config](https://github.com/jerrykuku/luci-app-argon-config) — Плагин настройки темы Argon.
+
+* [openwrt-package](https://github.com/NerealNeSkill?tab=repositories) — Мой репозиторий пакетов OpenWrt.
