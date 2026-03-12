@@ -1,6 +1,6 @@
-# Release action based on the one published in luci-theme-argon
-# edited to use snapshot branch
-# Kyo 2024-11 - Updated with RU localization support
+# Действие для релиза, основанное на публикации в luci-theme-argon
+# Отредактировано для использования ветки snapshot
+# NerealNeSkill - Обновлено с поддержкой русской локализации и разделением локали
 
 name: "luci-app-argon-config APK build - Auto compile with OpenWrt SDK"
 on:
