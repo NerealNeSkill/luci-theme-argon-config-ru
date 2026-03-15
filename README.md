@@ -25,7 +25,6 @@
 </div>
 
 
-# 🚀 Argon Theme Config (RU)
 
 
 ## ⚡ Быстрая установка (Рекомендуется)
@@ -38,7 +37,7 @@ sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-arg
 ```
 
 
-###Что устанавливается:###
+## Что устанавливается:
 
 **luci-theme-argon — Современная и гибкая тема оформления.**
 
@@ -61,8 +60,9 @@ apk add --allow-untrusted /tmp/luci-theme-argon-all.apk
 
 ```
 
+</div>
 
-## Установка Argon Config
+## Ручная установка Argon Config
 
 
 
