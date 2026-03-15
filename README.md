@@ -47,6 +47,8 @@ sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-arg
 
 </div>
 
+---
+
 ## 📦 Ручная установка Argon Theme
 
 
@@ -74,6 +76,7 @@ apk add --allow-untrusted /tmp/luci-theme-argon-all.apk
 ```
 
 </div>
+---
 
 ## 🛠️ Ручная установка Argon Config
 
