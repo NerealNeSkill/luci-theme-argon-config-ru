@@ -27,48 +27,24 @@
 
 # 🚀 Argon Theme Config (RU)
 
-[![OpenWrt Version](https://img.shields.io/badge/OpenWrt-25.12%2B-blue.svg)](https://openwrt.org)
-[![License](https://img.shields.io/badge/License-GPL--3.0-green.svg)](https://opensource.org/licenses/GPL-3.0)
-[![Release](https://img.shields.io/github/v/release/NerealNeSkill/luci-theme-argon-config-ru)](https://github.com/NerealNeSkill/luci-theme-argon-config-ru/releases)
-
-Полная русская локализация и автоматизированная сборка для настройки темы **Argon**. Репозиторий включает в себя саму тему, плагин конфигурации и актуальный перевод для новых и старых систем пакетов.
-
----
 
 ## ⚡ Быстрая установка (Рекомендуется)
 
 Вам не нужно скачивать файлы вручную. Просто скопируйте эту команду и вставьте её в терминал (SSH) вашего роутера. Скрипт сам определит тип системы (**APK** или **IPK**) и установит нужные компоненты.
 
 ```bash
-sh -c "$(curl -sL [https://raw.githubusercontent.com/NerealNeSkill/luci-theme-argon-config-ru/master/install.sh](https://raw.githubusercontent.com/NerealNeSkill/luci-theme-argon-config-ru/master/install.sh))"
 
-## Установка Argon Theme
-
-
-
-### Для систем с менеджером пакетов OPKG (IPK)
-
-
-
-**Установите основной пакет (`all` версия) в зависимости от того, где находится файл.**
-
-Если Вы загрузили пакет в папку /tmp
-
-
-```bash
-
-opkg install /tmp/luci-theme-argon-all.ipk
+sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-argon-config-ru/master/install.sh)"
 ```
 
-</div>
 
+###Что устанавливается:###
 
-Что устанавливается:
-luci-theme-argon — Современная и гибкая тема оформления.
+**luci-theme-argon — Современная и гибкая тема оформления.**
 
-luci-app-argon-config — Плагин для настройки фонов, цветов и эффектов темы.
+**luci-app-argon-config — Плагин для настройки фонов, цветов и эффектов темы.**
 
-luci-i18n-argon-config-ru — Полный перевод интерфейса настроек на русский язык.
+**luci-i18n-argon-config-ru — Полный перевод интерфейса настроек на русский язык.**
 
 
 ### Для систем с менеджером пакетов APK (Новые версии OpenWrt)
