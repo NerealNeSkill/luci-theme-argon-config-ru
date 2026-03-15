@@ -1,7 +1,7 @@
 [license]: /LICENSE
-[license-badge]: https://img.shields.io/github/license/jerrykuku/luci-app-argon-config?label=Лицензия&style=flat-square&a=1
+[license-badge]: https://img.shields.io/github/license/NerealNeSkill/luci-theme-argon-config-ru?label=Лицензия&style=flat-square
 [download]: https://github.com/jerrykuku/luci-app-argon-config/releases
-[download-badge]: https://img.shields.io/github/downloads/jerrykuku/luci-app-argon-config/total?label=Скачивания&style=flat-square
+[download-badge]: https://img.shields.io/github/downloads/NerealNeSkill/luci-theme-argon-config-ru/total?label=Скачивания&style=flat-square
 [contact]: https://t.me/NerealNeSkill
 [contact-badge]: https://img.shields.io/badge/Контакт-telegram-blue?style=flat-square
 
