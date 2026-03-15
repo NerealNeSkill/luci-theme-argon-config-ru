@@ -43,7 +43,7 @@ sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-arg
 
 🔹 luci-app-argon-config — Плагин для настройки фонов, цветов и эффектов темы.
 
-🔹 luci-i18n-argon-config-ru — Полный перевод интерфейса настроек на русский язык.
+🔹 luci-i18n-argon-config-ru — Перевод интерфейса настроек на русский язык.
 
 </div>
 
