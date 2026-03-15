@@ -44,6 +44,23 @@ sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-arg
 **luci-app-argon-config — Плагин для настройки фонов, цветов и эффектов темы.**
 
 **luci-i18n-argon-config-ru — Полный перевод интерфейса настроек на русский язык.**
+</div>
+
+## Ручная установка Argon Theme
+
+
+### Для систем с менеджером пакетов OPKG (IPK)
+
+
+
+1. **Сначала установите основной пакет (`all` версия) в зависимости от того, где находится файл.**
+
+Если Вы загрузили пакет в папку /tmp
+
+```bash
+
+opkg install /tmp/luci-theme-argon-all.ipk
+```
 
 
 ### Для систем с менеджером пакетов APK (Новые версии OpenWrt)
