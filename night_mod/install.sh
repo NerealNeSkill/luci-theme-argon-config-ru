@@ -1,29 +1,25 @@
 #!/bin/sh
 
-# Прямая ссылка на твою папку в GitHub
 RAW_URL="https://raw.githubusercontent.com/NerealNeSkill/luci-theme-argon-config-ru/master/night_mod"
 
-echo "Установка мода 'Ночной режим' для темы Argon..."
+# Пути к файлам
+CONF_JS="/www/luci-static/resources/view/argon-config.js"
+HEADER_HTM="/usr/lib/lua/luci/view/themes/argon/header.htm"
+NIGHT_CSS="/www/luci-static/argon/css/night.css"
 
-# 1. Загрузка стилей
-echo "Загрузка night.css..."
-wget -qO /www/luci-static/argon/css/night.css "$RAW_URL/night.css"
+echo "Установка Argon Night Mode..."
 
-# 2. Обновление настроек в интерфейсе
-echo "Обновление argon-config.js..."
-wget -qO /www/luci-static/resources/view/argon-config.js "$RAW_URL/argon-config.js"
+# Создаем бекапы, если их еще нет (.bak)
+[ ! -f "${CONF_JS}.bak" ] && cp "$CONF_JS" "${CONF_JS}.bak" && echo "Бекап argon-config.js создан"
+[ ! -f "${HEADER_HTM}.bak" ] && cp "$HEADER_HTM" "${HEADER_HTM}.bak" && echo "Бекап header.htm создан"
 
-# 3. Обновление шаблона темы
-echo "Обновление header.htm..."
-wget -qO /usr/lib/lua/luci/view/themes/argon/header.htm "$RAW_URL/header.htm"
+# Загружаем новые файлы
+wget -qO "$NIGHT_CSS" "$RAW_URL/night.css"
+wget -qO "$CONF_JS" "$RAW_URL/argon-config.js"
+wget -qO "$HEADER_HTM" "$RAW_URL/header.htm"
 
-# 4. Очистка кэша LuCI и перезагрузка сервера
-echo "Очистка кэша и перезапуск uhttpd..."
+# Сброс кэша
 rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 /etc/init.d/uhttpd restart
 
-echo "-------------------------------------------------------"
-echo "Готово! Ночной режим успешно установлен."
-echo "Зайдите в 'Система' -> 'Настройки Argon' и выберите 'Ночной режим'."
-echo "Если изменения не видны, нажмите Ctrl+F5 в браузере."
-echo "-------------------------------------------------------"
+echo "Установка завершена!"
