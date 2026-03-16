@@ -22,7 +22,6 @@ install_pkg() {
     local ignore_error=$2
     
     echo "Поиск компонента: $name..."
-    # Получаем прямую ссылку на скачивание из JSON ответа GitHub API
     local download_url=$(curl -s $API_URL | grep "browser_download_url" | grep "$name" | grep "\.$EXT" | cut -d '"' -f 4 | head -n 1)
     
     if [ -z "$download_url" ]; then
@@ -36,12 +35,11 @@ install_pkg() {
     
     echo "Установка $filename..."
     if [ "$ignore_error" = "true" ]; then
-        $INSTALL_CMD "./$filename" || echo "(!) Внимание: ошибка проигнорирована согласно инструкции."
+        $INSTALL_CMD "./$filename" || echo "(!) Внимание: ошибка проигнорирована."
     else
         $INSTALL_CMD "./$filename"
     fi
     
-    # Удаляем временный файл
     rm -f "$filename"
 }
 
@@ -49,18 +47,18 @@ install_pkg() {
 
 echo "Начинаю установку Argon RU Pack (v1.0)..."
 
-# 1. Тема Argon (игнорируем ошибку для IPK, если она уже есть)
-if [ "$EXT" = "ipk" ]; then
-    install_pkg "luci-theme-argon-all" "true"
-else
-    install_pkg "luci-theme-argon-all" "false"
-fi
-
-# 2. Основной конфиг
+install_pkg "luci-theme-argon-all" "true"
 install_pkg "luci-app-argon-config-all" "false"
-
-# 3. Русская локализация
 install_pkg "luci-i18n-argon-config-ru" "false"
 
 echo "------------------------------------------------"
-echo "Установка завершена! Проверьте меню в LuCI."
+echo "Применение изменений и очистка кэша..."
+
+# Очистка кэша LuCI и перезапуск служб
+rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
+/etc/init.d/rpcd restart
+/etc/init.d/uhttpd restart
+
+echo "------------------------------------------------"
+echo "Готово! Тема и конфиг установлены."
+echo "Если настройки не появились, обновите страницу в браузере (Ctrl+F5)."
