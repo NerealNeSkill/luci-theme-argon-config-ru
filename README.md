@@ -4,7 +4,7 @@
 [download-badge]: https://img.shields.io/badge/Скачивания-56-brightgreen?style=flat-square
 [contact]: https://t.me/NerealNeSkill
 [contact-badge]: https://img.shields.io/badge/Контакт-telegram-blue?style=flat-square
-
+[star-badge]: https://img.shields.io/github/stars/NerealNeSkill/luci-theme-argon-config-ru?style=social
 
 
 <div align="center"><img src="https://raw.githubusercontent.com/jerrykuku/staff/master/argon_title4.svg">
@@ -19,6 +19,7 @@
 [![license][license-badge]][license]
 [![download][download-badge]][download]
 [![contact][contact-badge]][contact]
+[![stars][star-badge]](https://github.com/NerealNeSkill/luci-theme-argon-config-ru/stargazers)
 
 
 <img src="https://raw.githubusercontent.com/jerrykuku/staff/master/argon2.gif">
