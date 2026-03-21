@@ -4,7 +4,7 @@
 [download-badge]: https://img.shields.io/badge/Скачивания-56-brightgreen?style=flat-square
 [contact]: https://t.me/NerealNeSkill
 [contact-badge]: https://img.shields.io/badge/Контакт-telegram-blue?style=flat-square
-[star-badge]: https://img.shields.io/github/stars/NerealNeSkill/luci-theme-argon-config-ru?label=Stars&logo=reverbnation&logoColor=white&style=flat-square&color=ffca28&labelColor=343a40
+[star-badge]: https://img.shields.io/github/stars/NerealNeSkill/luci-theme-argon-config-ru?label=Рейтинг&logo=reverbnation&logoColor=white&style=flat-square&color=ffca28&labelColor=343a40
 
 
 <div align="center"><img src="https://raw.githubusercontent.com/jerrykuku/staff/master/argon_title4.svg">
