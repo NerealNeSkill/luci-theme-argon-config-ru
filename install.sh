@@ -29,7 +29,8 @@ install_pkg() {
 
     local filename=$(basename "$download_url")
     echo "Загрузка $filename..."
-    wget -q -L -O "$filename" "$download_url"
+    # Убрали -L, так как BusyBox wget его не поддерживает
+    wget -q -O "$filename" "$download_url"
     
     echo "Установка $filename..."
     if [ "$ignore_error" = "true" ]; then
