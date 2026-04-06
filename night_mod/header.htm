@@ -43,23 +43,12 @@
 	
 	local bar_color = '#5e72e4'
 	local primary, dark_primary, night_primary
-	local blur_radius, blur_radius_dark, blur_radius_night
-	local blur_opacity, blur_opacity_dark, blur_opacity_night
 	
 	if fs.access('/etc/config/argon') then
-		primary = uci:get_first('argon', 'global', 'primary')
-		dark_primary = uci:get_first('argon', 'global', 'dark_primary')
-		night_primary = uci:get_first('argon', 'global', 'night_primary') or '#1f1f1f'
-		
-		blur_radius = uci:get_first('argon', 'global', 'blur')
-		blur_radius_dark = uci:get_first('argon', 'global', 'blur_dark')
-		blur_radius_night = uci:get_first('argon', 'global', 'blur_night') or '10'
-		
-		blur_opacity = uci:get_first('argon', 'global', 'transparency')
-		blur_opacity_dark = uci:get_first('argon', 'global', 'transparency_dark')
-		blur_opacity_night = uci:get_first('argon', 'global', 'transparency_night') or '0.5'
-		
-		mode = uci:get_first('argon', 'global', 'mode') or 'normal'
+		mode = uci:get("argon", "global", "mode") or 'normal'
+		primary = uci:get("argon", "global", "primary") or '#5e72e4'
+		dark_primary = uci:get("argon", "global", "dark_primary") or '#483d8b'
+		night_primary = uci:get("argon", "global", "night_primary") or '#1f1f1f'
 		
 		-- Установка цвета темы для браузеров
 		if mode == 'night' then
@@ -123,15 +112,18 @@
 		<% end %>
 
 		:root {
-			--primary: <%=primary%>;
-			--dark-primary: <%=dark_primary%>;
-			--night-primary: <%=night_primary%>;
-			--blur-radius: <%=blur_radius or "10"%>px;
-			--blur-opacity: <%=blur_opacity or "0.5"%>;
-			--blur-radius-dark: <%=blur_radius_dark or "10"%>px;
-			--blur-opacity-dark: <%=blur_opacity_dark or "0.5"%>;
-			--blur-radius-night: <%=blur_radius_night or "10"%>px;
-			--blur-opacity-night: <%=blur_opacity_night or "0.5"%>;
+			--primary: <%=uci:get("argon", "global", "primary") or "#5e72e4"%>;
+			--dark-primary: <%=uci:get("argon", "global", "dark_primary") or "#483d8b"%>;
+			--night-primary: <%=uci:get("argon", "global", "night_primary") or "#1f1f1f"%>;
+			
+			--blur-radius: <%=uci:get("argon", "global", "blur") or "10"%>px;
+			--blur-opacity: <%=uci:get("argon", "global", "transparency") or "0.5"%>;
+			
+			--blur-radius-dark: <%=uci:get("argon", "global", "blur_dark") or "10"%>px;
+			--blur-opacity-dark: <%=uci:get("argon", "global", "transparency_dark") or "0.5"%>;
+			
+			--blur-radius-night: <%=uci:get("argon", "global", "blur_night") or "10"%>px;
+			--blur-opacity-night: <%=uci:get("argon", "global", "transparency_night") or "0.5"%>;
 		}
 	</style>	
 	<% if node and node.css then %>
