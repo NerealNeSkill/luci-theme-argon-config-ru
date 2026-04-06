@@ -18,6 +18,9 @@ return view.extend({
 	},
 	render: function(data) {
 		var m, s, o;
+		// Определяем язык интерфейса
+		var lang = document.querySelector('html').getAttribute('lang') || 'en';
+
 		m = new form.Map('argon', _('Argon theme configuration'), _('Here you can set the blur and transparency of the login page of argon theme, and manage the background pictures and videos. Chrome is recommended.'));
 		s = m.section(form.TypedSection, 'global', _('Theme configuration'));
 		s.addremove = false;
@@ -35,7 +38,14 @@ return view.extend({
 		o.value('normal', _('Follow system'));
 		o.value('light', _('Light mode'));
 		o.value('dark', _('Dark mode'));
-		o.value('night', 'Ночной режим'); // Если тут знаки вопроса, проверь кодировку UTF-8!
+		
+		// Первый способ: динамическая подстановка текста в зависимости от языка
+		if (lang === 'ru') {
+			o.value('night', 'Ночной режим');
+		} else {
+			o.value('night', 'Night mode');
+		}
+
 		o.default = 'normal';
 		o.rmempty = false;
 
