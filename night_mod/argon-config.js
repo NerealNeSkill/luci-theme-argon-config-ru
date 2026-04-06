@@ -86,10 +86,28 @@ return view.extend({
 		o.default = '10';
 		o.rmempty = false;
 
-		// --- Настройки НОЧНОГО режима (Добавлено) ---
-		var night_label = (lang === 'ru') ? '[Ночной режим]' : '[Night mode]';
+		// --- Настройки НОЧНОГО режима (Исправлено) ---
+		var night_primary_title, night_trans_title, night_blur_title;
+		var night_primary_desc, night_trans_desc, night_blur_desc;
 
-		o = s.option(form.Value, 'night_primary', night_label + ' ' + _('Primary Color'), _('A HEX Color (default: #1f1f1f).'));
+		if (lang === 'ru') {
+			night_primary_title = '[Ночной режим] Основной цвет';
+			night_primary_desc  = 'HEX-код цвета (по умолчанию: #1f1f1f).';
+			night_trans_title   = '[Ночной режим] Прозрачность';
+			night_trans_desc    = '0 прозрачный - 1 непрозрачный.';
+			night_blur_title    = '[Ночной режим] Радиус размытия панели входа';
+			night_blur_desc     = 'Большее значение приведет к большей размытости.';
+		} else {
+			night_primary_title = '[Night mode] Primary Color';
+			night_primary_desc  = 'A HEX Color (default: #1f1f1f).';
+			night_trans_title   = '[Night mode] Transparency';
+			night_trans_desc    = '0 transparent - 1 opaque.';
+			night_blur_title    = '[Night mode] Frosted Glass Radius';
+			night_blur_desc     = 'Larger value will more blurred.';
+		}
+
+		// 1. Цвет
+		o = s.option(form.Value, 'night_primary', night_primary_title, night_primary_desc);
 		o.default = '#1f1f1f';
 		o.rmempty = false;
 		o.validate = function(section_id, value) {
@@ -97,12 +115,14 @@ return view.extend({
 			return true;
 		};
 
-		o = s.option(form.ListValue, 'transparency_night', night_label + ' ' + _('Transparency'), _('0 transparent - 1 opaque.'));
+		// 2. Прозрачность
+		o = s.option(form.ListValue, 'transparency_night', night_trans_title, night_trans_desc);
 		for (var i of trans_set) o.value(i);
 		o.default = '0.5';
 		o.rmempty = false;
 
-		o = s.option(form.Value, 'blur_night', night_label + ' ' + _('Frosted Glass Radius'), _('Larger value will more blurred.'));
+		// 3. Размытие
+		o = s.option(form.Value, 'blur_night', night_blur_title, night_blur_desc);
 		o.datatype = 'ufloat';
 		o.default = '10';
 		o.rmempty = false;
