@@ -38,24 +38,33 @@
 
 	-- Custom settings
 	local mode = 'normal'
-	-- Добавляем чтение твоего файла и защиту от nil (пустоты)
 	local dark_css = fs.readfile('/www/luci-static/argon/css/dark.css') or ""
 	local night_css = fs.readfile('/www/luci-static/argon/css/night.css') or ""
 	
 	local bar_color = '#5e72e4'
-	local primary, dark_primary, blur_radius, blur_radius_dark, blur_opacity, blur_opacity_dark
+	local primary, dark_primary, night_primary
+	local blur_radius, blur_radius_dark, blur_radius_night
+	local blur_opacity, blur_opacity_dark, blur_opacity_night
 	
 	if fs.access('/etc/config/argon') then
 		primary = uci:get_first('argon', 'global', 'primary')
 		dark_primary = uci:get_first('argon', 'global', 'dark_primary')
+		night_primary = uci:get_first('argon', 'global', 'night_primary') or '#1f1f1f'
+		
 		blur_radius = uci:get_first('argon', 'global', 'blur')
 		blur_radius_dark = uci:get_first('argon', 'global', 'blur_dark')
+		blur_radius_night = uci:get_first('argon', 'global', 'blur_night') or '10'
+		
 		blur_opacity = uci:get_first('argon', 'global', 'transparency')
 		blur_opacity_dark = uci:get_first('argon', 'global', 'transparency_dark')
+		blur_opacity_night = uci:get_first('argon', 'global', 'transparency_night') or '0.5'
+		
 		mode = uci:get_first('argon', 'global', 'mode') or 'normal'
 		
-		-- ВАЖНО: обновляем bar_color и для режима dark, и для режима night
-		if mode == 'dark' or mode == 'night' then
+		-- РЈСЃС‚Р°РЅРѕРІРєР° С†РІРµС‚Р° С‚РµРјС‹ РґР»СЏ Р±СЂР°СѓР·РµСЂРѕРІ
+		if mode == 'night' then
+			bar_color = night_primary
+		elseif mode == 'dark' then
 			bar_color = dark_primary
 		else
 			bar_color = primary
@@ -73,29 +82,24 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 	<title><%=striptags( (boardinfo.hostname or "?") .. ( (node and node.title) and ' - ' .. translate(node.title) or '')) %> - LuCI</title>
 	
-	<!-- SEO and Description -->
 	<meta name="robots" content="noindex, nofollow">
 	
-	<!-- Security -->
 	<meta http-equiv="X-Content-Type-Options" content="nosniff">
 	<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 	<meta http-equiv="X-XSS-Protection" content="1; mode=block">
 	<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 	
-	<!-- Mobile and PWA -->
 	<meta name="format-detection" content="telephone=no, email=no">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="apple-mobile-web-app-title" content="<%=striptags( (boardinfo.hostname or "?") ) %> - LuCI">
 	
-	<!-- Theme and Colors -->
 	<meta name="theme-color" content="<%=bar_color%>">
 	<meta name="msapplication-TileColor" content="<%=bar_color%>">
 	<meta name="msapplication-TileImage" content="<%=media%>/icon/ms-icon-144x144.png">
 	<meta name="application-name" content="<%=striptags( (boardinfo.hostname or "?") ) %> - LuCI">
 	
-	<!-- Icons and Manifest -->
 	<link rel="icon" type="image/x-icon" href="<%=media%>/favicon.ico">
 	<link rel="icon" type="image/png" sizes="16x16" href="<%=media%>/icon/favicon-16x16.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="<%=media%>/icon/favicon-32x32.png">
@@ -121,13 +125,15 @@
 		:root {
 			--primary: <%=primary%>;
 			--dark-primary: <%=dark_primary%>;
-			--blur-radius: <%=uci:get("argon", "global", "blur") or "10"%>px;
-			--blur-opacity: <%=uci:get("argon", "global", "transparency") or "0.5"%>;
-			--blur-radius-dark: <%=uci:get("argon", "global", "blur_dark") or "10"%>px;
-			--blur-opacity-dark: <%=uci:get("argon", "global", "transparency_dark") or "0.5"%>;
+			--night-primary: <%=night_primary%>;
+			--blur-radius: <%=blur_radius or "10"%>px;
+			--blur-opacity: <%=blur_opacity or "0.5"%>;
+			--blur-radius-dark: <%=blur_radius_dark or "10"%>px;
+			--blur-opacity-dark: <%=blur_opacity_dark or "0.5"%>;
+			--blur-radius-night: <%=blur_radius_night or "10"%>px;
+			--blur-opacity-night: <%=blur_opacity_night or "0.5"%>;
 		}
 	</style>	
-	<!-- Stylesheets -->
 	<% if node and node.css then %>
 	<link rel="stylesheet" href="<%=resource%>/<%=node.css%>">
 	<% end -%>
@@ -150,7 +156,6 @@
 			<div class="sidenav-header d-flex align-items-center">
 				<a class="brand" href="#"><%=brand_name%></a>
 				<div class="ml-auto">
-					<!-- Sidenav toggler -->
 					<div class="sidenav-toggler d-none d-xl-block active" data-action="sidenav-unpin"
 						data-target="#sidenav-main">
 						<div class="sidenav-toggler-inner">
