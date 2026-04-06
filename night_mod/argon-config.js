@@ -39,7 +39,6 @@ return view.extend({
 		o.value('light', _('Light mode'));
 		o.value('dark', _('Dark mode'));
 		
-		// Первый способ: динамическая подстановка текста в зависимости от языка
 		if (lang === 'ru') {
 			o.value('night', 'Ночной режим');
 		} else {
@@ -49,6 +48,7 @@ return view.extend({
 		o.default = 'normal';
 		o.rmempty = false;
 
+		// --- Настройки Светлого режима ---
 		o = s.option(form.Value, 'primary', _('[Light mode] Primary Color'), _('A HEX color (default: #5e72e4).'));
 		o.default = '#5e72e4';
 		o.rmempty = false;
@@ -67,6 +67,7 @@ return view.extend({
 		o.default = '10';
 		o.rmempty = false;
 
+		// --- Настройки Тёмного режима ---
 		o = s.option(form.Value, 'dark_primary', _('[Dark mode] Primary Color'), _('A HEX Color (default: #483d8b).'));
 		o.default = '#483d8b';
 		o.rmempty = false;
@@ -81,6 +82,27 @@ return view.extend({
 		o.rmempty = false;
 
 		o = s.option(form.Value, 'blur_dark', _('[Dark mode] Frosted Glass Radius'), _('Larger value will more blurred (suggest: clear: 1 or blur preset: 10).'));
+		o.datatype = 'ufloat';
+		o.default = '10';
+		o.rmempty = false;
+
+		// --- Настройки НОЧНОГО режима (Добавлено) ---
+		var night_label = (lang === 'ru') ? '[Ночной режим]' : '[Night mode]';
+
+		o = s.option(form.Value, 'night_primary', night_label + ' ' + _('Primary Color'), _('A HEX Color (default: #1f1f1f).'));
+		o.default = '#1f1f1f';
+		o.rmempty = false;
+		o.validate = function(section_id, value) {
+			if (section_id) return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(value) || _('Expecting: %s').format(_('valid HEX color value'));
+			return true;
+		};
+
+		o = s.option(form.ListValue, 'transparency_night', night_label + ' ' + _('Transparency'), _('0 transparent - 1 opaque.'));
+		for (var i of trans_set) o.value(i);
+		o.default = '0.5';
+		o.rmempty = false;
+
+		o = s.option(form.Value, 'blur_night', night_label + ' ' + _('Frosted Glass Radius'), _('Larger value will more blurred.'));
 		o.datatype = 'ufloat';
 		o.default = '10';
 		o.rmempty = false;
