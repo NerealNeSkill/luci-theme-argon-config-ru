@@ -1,5 +1,5 @@
 [license]: /LICENSE
-[license-badge]: https://img.shields.io/github/license/NerealNeSkill/luci-theme-argon-config-ru?label=Лицензия&style=flat-square&color=415fcf
+[license-badge]: https://img.shields.io/github/license/NerealNeSkill/luci-theme-argon-config-ru?label=Лицензия&style=flat-square&color=415fcf&cacheSeconds=3600
 [download]: https://github.com/NerealNeSkill/luci-theme-argon-config-ru/releases
 [download-badge]: https://img.shields.io/github/downloads/NerealNeSkill/luci-theme-argon-config-ru/total?label=Скачивания&style=flat-square&color=28a745
 [contact]: https://t.me/NerealNeSkill
