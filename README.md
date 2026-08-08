@@ -56,7 +56,7 @@ sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-arg
 
 ```bash
 
-sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-argon-config-ru/master/uninstall.sh)")"
+sh -c "$(curl -sL https://raw.githubusercontent.com/NerealNeSkill/luci-theme-argon-config-ru/master/uninstall.sh)"
 ```
 
 
